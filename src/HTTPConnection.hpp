@@ -8,7 +8,7 @@
 #include <mbedtls/base64.h>
 //#include <hwcrypto/sha.h>
 #include <sha/sha_parallel_engine.h> // For use with IDF4.4
-#include <esp32/sha.h>
+//#include <esp32/sha.h>             // Deprecated
 
 #include <functional>
 
