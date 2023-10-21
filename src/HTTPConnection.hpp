@@ -9,6 +9,7 @@
 //#include <hwcrypto/sha.h>
 #include <sha/sha_parallel_engine.h>     // For use with IDF4.4
 //#include <esp32/sha.h>                 // Deprecated
+//#include <mbedtls/sha1.h>              //TODO Use instead of sha/sha_parallel_engine.h ?
 
 #include <functional>
 

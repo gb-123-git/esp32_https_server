@@ -5,9 +5,12 @@
 
 #include <string>
 
+/* OpenSSL Depracation in IDF v5
 // Required for SSL
 #include "openssl/ssl.h"
 #undef read
+*/
+#include <esp_tls.h>
 
 // Required for sockets
 #include "lwip/netdb.h"
@@ -34,7 +37,7 @@ public:
   HTTPSConnection(ResourceResolver * resResolver);
   virtual ~HTTPSConnection();
 
-  virtual int initialize(int serverSocketID, SSL_CTX * sslCtx, HTTPHeaders *defaultHeaders);
+  virtual int initialize(int serverSocketID,esp_tls_cfg_server_t * cfgSrv, HTTPHeaders *defaultHeaders);
   virtual void closeConnection();
   virtual bool isSecure();
 
@@ -49,7 +52,8 @@ protected:
 
 private:
   // SSL context for this connection
-  SSL * _ssl;
+  esp_tls_t * _ssl;
+  esp_tls_cfg_server_t * _cfg;
 
 };
 

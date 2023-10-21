@@ -9,7 +9,8 @@
 #undef write
 #include <vector>
 
-#include <openssl/ssl.h>
+// #include <openssl/ssl.h> //Deprecated w.e.f IDF v5
+#include <esp_tls.h>
 
 #include "util.hpp"
 

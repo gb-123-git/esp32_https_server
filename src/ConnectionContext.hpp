@@ -4,9 +4,12 @@
 #include <Arduino.h>
 #include <IPAddress.h>
 
+/* Openssl removed from IDF V5, move to esp_tls.h
 // Required for SSL
 #include "openssl/ssl.h"
 #undef read
+*/
+#include <esp_tls.h>
 
 namespace httpsserver {
 

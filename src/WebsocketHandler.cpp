@@ -1,5 +1,9 @@
 #include "WebsocketHandler.hpp"
 
+#ifndef TAG
+static const char *TAG = "WebsocketHandler";
+#endif
+
 namespace httpsserver {
 
 /**
@@ -16,7 +20,7 @@ static void dumpFrame(WebsocketFrame frame) {
     case WebsocketHandler::OPCODE_PONG: opcode = std::string("PONG"); break;
     case WebsocketHandler::OPCODE_TEXT: opcode = std::string("TEXT"); break;
   }
-/*  Commenting logging function to resolve compilation
+  Commenting logging function to resolve compilation
     ESP_LOGI(
     TAG,
     "Fin: %d, OpCode: %d (%s), Mask: %d, Len: %d",
@@ -26,7 +30,6 @@ static void dumpFrame(WebsocketFrame frame) {
     (int)frame.mask,
     (int)frame.len
   );
-*/
 }
 
 WebsocketHandler::WebsocketHandler() {
