@@ -6,7 +6,8 @@
 
 #include <string>
 #include <mbedtls/base64.h>
-#include <hwcrypto/sha.h>
+//#include <hwcrypto/sha.h> // Depracated
+#include <sha/sha_parallel_engine.h> // For use with IDF4.4
 #include <functional>
 
 // Required for sockets
