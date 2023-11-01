@@ -149,7 +149,7 @@ size_t HTTPSConnection::writeBuffer(byte* buffer, size_t length) {
 
 size_t HTTPSConnection::readBytesToBuffer(byte* buffer, size_t length) {
   #if (defined(PMGA_IDF_4))
-  size_t ret = SSL_read(_ssl, buffer, length);
+  int8_t ret = SSL_read(_ssl, buffer, length);
   if (ret < 0) {
     HTTPS_LOGD("SSL_read error: %d",  SSL_get_error(_ssl, ret));
   }
