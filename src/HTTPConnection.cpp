@@ -677,8 +677,12 @@ void handleWebsocketHandshake(HTTPRequest * req, HTTPResponse * res) {
 std::string websocketKeyResponseHash(std::string const &key) {
   std::string newKey = key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
   uint8_t shaData[HTTPS_SHA1_LENGTH];
+  #if (defined(PMGA_IDF_4))
   esp_sha(SHA1, (uint8_t*)newKey.data(), newKey.length(), shaData);
-
+  #else
+  mbedtls_sha1_ret((uint8_t*)newKey.data(), newKey.length(), shaData);
+  #endif
+  
   // Get output size required for base64 representation
   size_t b64BufferSize = 0;
   mbedtls_base64_encode(nullptr, 0, &b64BufferSize, (const unsigned char*)shaData, HTTPS_SHA1_LENGTH);

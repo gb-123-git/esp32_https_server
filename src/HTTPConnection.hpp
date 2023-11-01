@@ -6,8 +6,13 @@
 
 #include <string>
 #include <mbedtls/base64.h>
-//#include <hwcrypto/sha.h> // Depracated
-#include <sha/sha_parallel_engine.h> // For use with IDF4.4
+
+#if (defined(PMGA_IDF_4))
+  #include <sha/sha_parallel_engine.h> // For use with IDF4.4
+#else 
+  #include <mbedtls/sha1.h>
+#endif
+
 #include <functional>
 
 // Required for sockets

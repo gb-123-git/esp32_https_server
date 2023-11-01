@@ -9,7 +9,11 @@
 #undef write
 #include <vector>
 
-#include <openssl/ssl.h>
+#if (defined(PMGA_IDF_4))
+  #include <openssl/ssl.h>
+#else
+  #include <esp_tls.h>
+#endif
 
 #include "util.hpp"
 

@@ -7,9 +7,13 @@
 // Arduino stuff
 #include <Arduino.h>
 
-// Required for SSL
-#include "openssl/ssl.h"
-#undef read
+#if (defined(PMGA_IDF_4))
+  // Required for SSL
+  #include "openssl/ssl.h"
+  #undef read
+#else
+  #include <esp_tls.h>
+#endif
 
 // Internal includes
 #include "HTTPServer.hpp"
@@ -31,6 +35,9 @@ class HTTPSServer : public HTTPServer {
 public:
   HTTPSServer(SSLCert * cert, const uint16_t portHTTPS = 443, const uint8_t maxConnections = 4, const in_addr_t bindAddress = 0);
   virtual ~HTTPSServer();
+  #if !(defined(PMGA_IDF_4))
+  virtual esp_tls_cfg_server_t *getConfig() {return _cfg;}
+  #endif
 
 private:
   // Static configuration. Port, keys, etc. ====================
@@ -38,13 +45,19 @@ private:
   SSLCert * _cert;
  
   //// Runtime data ============================================
-  SSL_CTX * _sslctx;
+  #if (defined(PMGA_IDF_4))
+    SSL_CTX * _sslctx;
+  #else
+    esp_tls_cfg_server_t * _cfg;
+  #endif
   // Status of the server: Are we running, or not?
 
   // Setup functions
   virtual uint8_t setupSocket();
   virtual void teardownSocket();
-  uint8_t setupSSLCTX();
+  #if (defined(PMGA_IDF_4))
+    uint8_t setupSSLCTX();
+  #endif
   uint8_t setupCert();
 
   // Helper functions

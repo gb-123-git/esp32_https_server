@@ -4,9 +4,13 @@
 #include <Arduino.h>
 #include <IPAddress.h>
 
-// Required for SSL
-#include "openssl/ssl.h"
-#undef read
+#if (defined(PMGA_IDF_4))
+  // Required for SSL
+  #include "openssl/ssl.h"
+  #undef read
+#else
+  #include <esp_tls.h>
+#endif
 
 namespace httpsserver {
 

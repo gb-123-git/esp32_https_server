@@ -5,9 +5,13 @@
 
 #include <string>
 
-// Required for SSL
-#include "openssl/ssl.h"
-#undef read
+#if (defined(PMGA_IDF_4))
+  // Required for SSL
+  #include "openssl/ssl.h"
+  #undef read
+#else
+  #include <esp_tls.h>
+#endif
 
 // Required for sockets
 #include "lwip/netdb.h"
@@ -34,7 +38,11 @@ public:
   HTTPSConnection(ResourceResolver * resResolver);
   virtual ~HTTPSConnection();
 
-  virtual int initialize(int serverSocketID, SSL_CTX * sslCtx, HTTPHeaders *defaultHeaders);
+  #if (defined(PMGA_IDF_4))
+    virtual int initialize(int serverSocketID, SSL_CTX * sslCtx, HTTPHeaders *defaultHeaders);
+  #else
+    virtual int initialize(int serverSocketID,esp_tls_cfg_server_t * cfgSrv, HTTPHeaders *defaultHeaders);
+  #endif
   virtual void closeConnection();
   virtual bool isSecure();
 
@@ -49,8 +57,12 @@ protected:
 
 private:
   // SSL context for this connection
-  SSL * _ssl;
-
+  #if (defined(PMGA_IDF_4))
+    SSL * _ssl;
+  #else
+    esp_tls_t * _ssl;
+    esp_tls_cfg_server_t * _cfg;
+  #endif
 };
 
 } /* namespace httpsserver */
