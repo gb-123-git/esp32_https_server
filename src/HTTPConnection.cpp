@@ -680,7 +680,7 @@ std::string websocketKeyResponseHash(std::string const &key) {
   #if (defined(PMGA_IDF_4))
   esp_sha(SHA1, (uint8_t*)newKey.data(), newKey.length(), shaData);
   #else
-  mbedtls_sha1_ret((uint8_t*)newKey.data(), newKey.length(), shaData);
+  mbedtls_sha1((uint8_t*)newKey.data(), newKey.length(), shaData);
   #endif
   
   // Get output size required for base64 representation
